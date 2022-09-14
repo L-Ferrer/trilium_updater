@@ -1,12 +1,8 @@
-import requests
 import json
 import win32api
-import re
 import os
 import wget
 import zipfile
-import shutil
-import ctypes, sys
 
 # TODO: Error handling in batch script
 # TODO: Rework path management
@@ -56,18 +52,18 @@ def getLocalVersion():
 
 # Fetch the latest release
 def getLatestVersion():
-    #try:
-        #response_API = requests.get('https://api.github.com/repos/zadam/trilium/releases/latest')
-        #data = response_API.text
-       # parse_json = json.loads(data)
-       # latest_release = parse_json['tag_name']
-       # __latest_release = re.search('\d+[.]\d+[.]\d+', latest_release)
-       # f_latest_release = __latest_release.group(0)
-   # except Exception as e:
-       # print(f"{color.red}[Error] - Failed to fetch repository information\n[Error] - Occurred error: "+str(e)+f"{color.reset}")
-       # exit(2)
-    #print(f"{color.yellow}[Debug] - Latest release: " + f_latest_release + f"{color.reset}")
-    return "0.54.3" #f_latest_release
+    try:
+        response_API = requests.get('https://api.github.com/repos/zadam/trilium/releases/latest')
+        data = response_API.text
+        parse_json = json.loads(data)
+        latest_release = parse_json['tag_name']
+        __latest_release = re.search('\d+[.]\d+[.]\d+', latest_release)
+        f_latest_release = __latest_release.group(0)
+    except Exception as e:
+        print(f"{color.red}[Error] - Failed to fetch repository information\n[Error] - Occurred error: "+str(e)+f"{color.reset}")
+        exit(2)
+    print(f"{color.yellow}[Debug] - Latest release: " + f_latest_release + f"{color.reset}")
+    return f_latest_release
 
 # Downloads the latest windows release
 def downloadUpdate(latest):
@@ -89,14 +85,6 @@ def installUpdate(latest):
     target = os.getenv("tmp") + "\\" + filename
     dest = os.getenv("tmp")
     tmp = os.getenv("tmp") + "\\" + filename
-
-    # File deletion -- Not working as admin is needed
-    #try:
-    #    shutil.rmtree(root_dir+"\\trilium-windows-x64")
-    #    print(f"{color.yellow}\n[Debug] - Deleted folder "+root_dir+f"\\trilium-windows-x64 {color.reset}")
-    #except Exception as e:
-    #    print(f"{color.red}[Error] - Failed to delete directory "+trilium_dir+"\n[Error] - Occurred error: "+str(e)+f"{color.reset}")
-    #    exit(4)
 
     # File extraction
     try:
