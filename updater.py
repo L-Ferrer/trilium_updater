@@ -3,10 +3,14 @@ import win32api
 import os
 import wget
 import zipfile
+import requests
+import re
 
 # TODO: Error handling in batch script
 # TODO: Rework path management
-# TODO: Implement github api authentication
+# TODO: Python 3.9 and 3.10 support
+#* optional: Implement github api authentication
+
 # Variables
 trilium_dir = 'C:\\Program Files\\trilium-windows-x64'      # Directory of the 'trilium.exe' file
 
