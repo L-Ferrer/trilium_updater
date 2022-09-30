@@ -15,7 +15,7 @@ Currently only working on Windows with hardcoded paths for Python and installati
 ### Dependencies
 
 * Python 3.9
-* Python 3.10 *(you'd need to update the path in `run.bat` accordingly)*
+* Python 3.10 *(you'd need to update the path in **run.bat** accordingly)*
 
 Install all Python modules with `pip install -r 'requirements.txt'`
 
@@ -23,12 +23,12 @@ Install all Python modules with `pip install -r 'requirements.txt'`
 
 1. Install all modules
 `pip install -r 'requirements.txt'`
-2. Execute `run.bat`
+2. Execute **run.bat**
 3. Hope you don't get any error
 
 ## ToDo
 - [ ] Error handling in batch script
-    *Currently your Trilium installation will be deleted even if the Python script fails*
+    *(currently your Trilium installation will be deleted even if the Python script fails)*
 - [ ] Add dynamic path management
 
 ## Version History
