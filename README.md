@@ -4,7 +4,7 @@ A python script for updating your local trilium-client
 
 ## Description
 
-This script automates the download and installation of your local Trilium client.
+This script automates the download and installation of an update for your local Trilium client.
 
 ## Getting Started
 
