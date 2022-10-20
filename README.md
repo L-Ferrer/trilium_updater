@@ -10,12 +10,13 @@ This script automates the download and installation of an update for your local 
 
 ### Compatibility
 
-Currently only working on Windows with hardcoded paths for Python and installation directory.
+Currently only working on Windows with hardcoded paths for Python and installation directory.<br>
 
 ### Dependencies
 
 * Python 3.9
-* Python 3.10 *(you'd need to update the path in **run.bat** accordingly)*
+<br>or
+* Python 3.10
 
 Install all Python modules with `pip install -r 'requirements.txt'`
 
@@ -24,18 +25,21 @@ Install all Python modules with `pip install -r 'requirements.txt'`
 1. Install all modules
 `pip install -r 'requirements.txt'`
 2. Execute **run.bat**
-3. Hope you don't get any error
 
 ## ToDo
-- [ ] Error handling in batch script
-    *(currently your Trilium installation will be deleted even if the Python script fails)*
+- [x] Error handling in batch script
+    ~~*(currently your Trilium installation will be deleted even if the Python script fails)*~~
 - [ ] Add dynamic path management
+- [ ] Write a bash script for docker 
 
 ## Version History
 
+### 20.10.2022
+* Implemented error handling in **run.bat**
+
 ### 14.09.2022
-    * Initial Release
-    * Rough functionality 
+* Initial Release
+* Rough functionality 
 
 ## Acknowledgments
 Thanks to [Zadam](https://github.com/zadam) for making [Trilium](https://github.com/zadam/trilium).
