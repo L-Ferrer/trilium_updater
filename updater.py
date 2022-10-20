@@ -6,10 +6,7 @@ import zipfile
 import requests
 import re
 
-# TODO: Error handling in batch script
 # TODO: Rework path management
-# TODO: Python 3.9 and 3.10 support
-#* optional: Implement github api authentication
 
 # Variables
 trilium_dir = 'C:\\Program Files\\trilium-windows-x64'      # Directory of the 'trilium.exe' file
@@ -17,13 +14,6 @@ trilium_dir = 'C:\\Program Files\\trilium-windows-x64'      # Directory of the '
 # Constant
 fname = trilium_dir + '\\trilium.exe'
 root_dir = "C:\\Program Files"
-
-# Colors
-class color:
-    red = "\u001b[31m"
-    green = "\u001b[32m"
-    yellow = "\u001b[33m"
-    reset = "\u001b[0m"
 
 # Get local version
 def getLocalVersion():
@@ -51,7 +41,7 @@ def getLocalVersion():
     jsonVer = json.dumps(strInfo)
     jsonVer2 = json.loads(jsonVer)
     localVer = jsonVer2['FileVersion']
-    print(f"{color.yellow}[Debug] - Found local version: " + localVer + f" at "+fname+f"{color.reset}")
+    print(f"[Debug] - Found local version: " + localVer + f" at "+fname)
     return localVer
 
 # Fetch the latest release
@@ -63,10 +53,10 @@ def getLatestVersion():
         latest_release = parse_json['tag_name']
         __latest_release = re.search('\d+[.]\d+[.]\d+', latest_release)
         f_latest_release = __latest_release.group(0)
-    except Exception as e:
-        print(f"{color.red}[Error] - Failed to fetch repository information\n[Error] - Occurred error: "+str(e)+f"{color.reset}")
+    except Exception:
+        print(f"[Error] - Failed to fetch repository information.")
         exit(2)
-    print(f"{color.yellow}[Debug] - Latest release: " + f_latest_release + f"{color.reset}")
+    print(f"[Debug] - Latest release: " + f_latest_release)
     return f_latest_release
 
 # Downloads the latest windows release
@@ -74,13 +64,12 @@ def downloadUpdate(latest):
     filename="trilium-windows-x64-"+latest+".zip"
     url = "https://github.com/zadam/trilium/releases/download/v"+latest+"/" + filename
     dest = os.getenv("tmp") + "\\" + filename
-    print(f"{color.yellow}[Debug] - Downloading latest release ["+filename+"] from https://github.com/zadam/trilium/releases/tag/v" + latest + "/"+filename)
-    print(f"{color.reset}")
+    print(f"[Debug] - Downloading latest release ["+filename+"] from https://github.com/zadam/trilium/releases/tag/v" + latest + "/"+filename)
     try:
         wget.download(url, dest)
-        print(f"{color.yellow}\n[Debug] - Downloaded "+filename+" to" + dest + f"{color.reset}")
-    except Exception as e:
-        print(f"{color.red}[Error] - Failed to download file\n[Error] - Occurred error: "+str(e)+f"{color.reset}")
+        print(f"\n[Debug] - Downloaded "+filename+" to" + dest)
+    except Exception:
+        print(f"[Error] - Failed to download file.")
         exit(3)
 
 # Deletes old files and extracts new ones
@@ -92,39 +81,37 @@ def installUpdate(latest):
 
     # File extraction
     try:
-        print(f"{color.yellow}[Debug] - Extracting files to " + dest + f"{color.reset}")
+        print(f"[Debug] - Extracting files to " + dest)
         zipfile.ZipFile(target, "r").extractall(dest)
         zipfile.ZipFile(target, "r").close()
-        print(f"{color.yellow}\n[Debug] - Extracted files to "+dest+f"{color.reset}")
-    except Exception as e:
-        print(f"{color.red}[Error] - Failed to extract "+filename+"\n[Error] - Occurred error: "+str(e)+f"{color.reset}")
-        exit(5)
+        print(f"\n[Debug] - Extracted files to "+dest)
+    except Exception:
+        print(f"[Error] - Failed to extract "+filename+".")
+        exit(4)
 
     # Deletion of temporary zip
     try:
-        print(f"{color.yellow}[Debug] - Deleting temporary file "+tmp+f"{color.reset}")
+        print(f"[Debug] - Deleting temporary file "+tmp)
         os.remove(tmp)
-        print(f"{color.yellow}[Debug] - Temporary file deleted {color.reset}")
-    except Exception as e:
-        print(f"{color.red}[Error] - Failed to delete temporary file "+tmp+"\n[Error] - Occurred error: "+str(e)+f"{color.reset}")
-        exit(6)
+        print(f"[Debug] - Temporary file deleted")
+    except Exception:
+        print(f"[Error] - Failed to delete temporary file "+tmp+".")
+        exit(5)
 
 if not os.path.exists(fname):
-    print(f"{color.red}"
-        "[Error] - Trilium wasn't found at '" + trilium_dir + "'\n"
-        f"Please check your [trilium_dir] variable{color.reset}")
-    exit(1)
+    print("[Error] - Trilium wasn't found at '" + trilium_dir + "'\n"
+        f"Please check your [trilium_dir] variable")
+    exit(6)
 
 latest = getLatestVersion()
 local = getLocalVersion()
 
 if(latest == local):
-    print(f"{color.green}Your version of Trilium is up to date.{color.reset}")
-    exit(0)
-
-if(latest > local):
-    print(f"{color.green}An update of Trilium was found")
-    print(f"Updating...{color.reset}")
+    print(f"[Info] - Your version of Trilium is up to date.")
+    exit(1)
+else:
+    print(f"An update of Trilium was found")
+    print(f"Updating...")
     downloadUpdate(latest)
-    print(f"{color.yellow}[Debug] - Download complete\n[Debug] - Installing update...{color.reset}")
+    print(f"[Debug] - Download complete\n[Debug] - Installing update...")
     installUpdate(latest)
