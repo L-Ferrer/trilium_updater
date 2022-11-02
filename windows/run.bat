@@ -45,7 +45,7 @@ if exist %LocalAppData%\Programs\Python\Python310\python.exe (
     pause & exit /B 1
 )
 :exec_script
-%python% "%~dp0\updater.py"
+%python% "%~dp0\windows_updater.py"
 if errorlevel 2 ( echo [Error] - Script stopped with exit code %errorlevel%. & pause & exit /B %errorlevel% )
 if %errorlevel% == 1 ( pause & exit /B 0 )
 if %errorlevel% == -1073741510 ( echo [Warn] - Keyboard interuption detected. Aborting... & pause & exit /B %errorlevel% )

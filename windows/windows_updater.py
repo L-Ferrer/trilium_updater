@@ -8,12 +8,11 @@ import re
 
 # TODO: Rework path management
 
-# Variables
+# Variable
 trilium_dir = 'C:\\Program Files\\trilium-windows-x64'      # Directory of the 'trilium.exe' file
 
 # Constant
 fname = trilium_dir + '\\trilium.exe'
-root_dir = "C:\\Program Files"
 
 # Get local version
 def getLocalVersion():
