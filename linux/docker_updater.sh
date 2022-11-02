@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function getDockerID {
-    tmp_file=/tmp/container.txt
+    tmp_file=/tmp/container.tmp
     sudo docker container ls > $tmp_file
     tail -qn +2 $tmp_file
     container_id=$(egrep -oe '^\S{12}' $tmp_file)
