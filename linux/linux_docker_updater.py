@@ -6,11 +6,13 @@ import zipfile
 import requests
 import re
 
+# TODO: Docker API - https://docs.docker.com/engine/api/sdk/examples/
+
 # Variable
 trilium_dir = '/home/pi'      # Target directory for the docker execute script
 
 # Constant
-fname = trilium_dir + '\\run_trilium.sh'
+fname = trilium_dir + '/run_trilium.sh'
 
 # Get local version
 def getLocalVersion():
