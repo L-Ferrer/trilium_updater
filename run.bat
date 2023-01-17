@@ -1,4 +1,28 @@
 @echo off
+:: BatchGotAdmin
+::-------------------------------------
+REM  --> Check for permissions
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+
+REM --> If error flag set, we do not have admin.
+if '%errorlevel%' NEQ '0' (
+    echo Requesting administrative privileges...
+    goto UACPrompt
+) else ( goto gotAdmin )
+
+:UACPrompt
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    set params = %*:"="
+    echo UAC.ShellExecute "cmd.exe", "/c %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
+
+    "%temp%\getadmin.vbs"
+    del "%temp%\getadmin.vbs"
+    exit /B
+
+:gotAdmin
+    pushd "%CD%"
+    CD /D "%~dp0"
+::--------------------------------------
 echo ------- Running updater -------
 tasklist /fi "ImageName eq trilium.exe" /fo csv 2>NUL | find /I "trilium.exe">NUL
 if "%ERRORLEVEL%"=="0" ( echo [Warn] - A Trilium process is still running. Aborting... & pause & exit 1 )
@@ -25,30 +49,6 @@ if exist %LocalAppData%\Programs\Python\Python310\python.exe (
 if errorlevel 2 ( echo [Error] - Script stopped with exit code %errorlevel%. & pause & exit /B %errorlevel% )
 if %errorlevel% == 1 ( pause & exit /B 0 )
 if %errorlevel% == -1073741510 ( echo [Warn] - Keyboard interuption detected. Aborting... & pause & exit /B %errorlevel% )
-:: BatchGotAdmin
-::-------------------------------------
-REM  --> Check for permissions
->nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
-
-REM --> If error flag set, we do not have admin.
-if '%errorlevel%' NEQ '0' (
-    echo Requesting administrative privileges...
-    goto UACPrompt
-) else ( goto gotAdmin )
-
-:UACPrompt
-    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    set params = %*:"="
-    echo UAC.ShellExecute "cmd.exe", "/c %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
-
-    "%temp%\getadmin.vbs"
-    del "%temp%\getadmin.vbs"
-    exit /B
-
-:gotAdmin
-    pushd "%CD%"
-    CD /D "%~dp0"
-::--------------------------------------
 echo [Info] - Removing old files
 RMDIR /S /Q "C:\Program Files\trilium-windows-x64"
 echo [Info] - Moving new files
