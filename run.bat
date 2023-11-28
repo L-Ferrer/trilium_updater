@@ -40,7 +40,23 @@ if exist %LocalAppData%\Programs\Python\Python310\python.exe (
     echo [Info] - Found Python 3.10
     goto exec_script
 ) else (
-    echo [Error] - No Python installation was found at %LocalAppData%\Programs\Python\
+    echo [Warn] - Python 3.10 wasn't found.
+)
+echo [Info] - Checking for Python 3.11 at %LocalAppData%\Programs\Python\Python311
+if exist %LocalAppData%\Programs\Python\Python311\python.exe (
+    set python=%LocalAppData%\Programs\Python\Python311\python.exe
+    echo [Info] - Found Python 3.11
+    goto exec_script
+) else (
+    echo [Warn] - Python 3.11 wasn't found.
+)
+echo [Info] - Checking for Python 3.12 at %LocalAppData%\Programs\Python\Python312
+if exist %LocalAppData%\Programs\Python\Python312\python.exe (
+    set python=%LocalAppData%\Programs\Python\Python312\python.exe
+    echo [Info] - Found Python 3.12
+    goto exec_script
+) else (
+    echo [Error] - No supported Python installation was found at %LocalAppData%\Programs\Python\
     echo [Info] - Aborting...
     pause & exit /B 1
 )

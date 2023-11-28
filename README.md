@@ -18,9 +18,7 @@ Currently only working on Windows with hardcoded paths for Python and installati
 
 ### Dependencies
 
-* Python 3.9
-<br>or
-* Python 3.10
+* Python 3.9 - 3.12
 
 Install all Python modules with `pip install -r 'requirements.txt'`
 

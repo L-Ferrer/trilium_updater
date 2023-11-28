@@ -51,7 +51,7 @@ def getLatestVersion():
         data = response_API.text
         parse_json = json.loads(data)
         latest_release = parse_json['tag_name']
-        __latest_release = re.search('\d+[.]\d+[.]\d+', latest_release)
+        __latest_release = re.search(r'\d+[.]\d+[.]\d+', latest_release)
         f_latest_release = __latest_release.group(0)
     except Exception:
         print(f"[Error] - Failed to fetch repository information.")
