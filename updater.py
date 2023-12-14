@@ -67,7 +67,7 @@ def downloadUpdate(latest):
     print(f"[Debug] - Downloading latest release ["+filename+"] from https://github.com/zadam/trilium/releases/tag/v" + latest + "/"+filename)
     try:
         wget.download(url, dest)
-        print(f"\n[Debug] - Downloaded "+filename+" to" + dest)
+        print(f"\n[Debug] - Downloaded "+filename+" to " + dest)
     except Exception:
         print(f"[Error] - Failed to download file.")
         exit(3)
